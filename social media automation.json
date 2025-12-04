@@ -1,0 +1,171 @@
+{
+  "name": "social media automation",
+  "nodes": [
+    {
+      "parameters": {
+        "text": "=this is n8n automation testing {{ $json[\"1st column\"] }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.twitter",
+      "typeVersion": 2,
+      "position": [
+        480,
+        -128
+      ],
+      "id": "6b1df56e-566a-4ae4-99ac-241733ed4593",
+      "name": "Create Tweet",
+      "credentials": {
+        "twitterOAuth2Api": {
+          "id": "WreurVzIURQfudbk",
+          "name": "krishna_kubde"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1iQAS0P3c2-vUOp1B8bA0kgmWMFr7lyVCQF6JjkOqc4Y",
+          "mode": "list",
+          "cachedResultName": "googleSheetTrigger",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iQAS0P3c2-vUOp1B8bA0kgmWMFr7lyVCQF6JjkOqc4Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iQAS0P3c2-vUOp1B8bA0kgmWMFr7lyVCQF6JjkOqc4Y/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        32,
+        -128
+      ],
+      "id": "69849ec1-6b89-4546-891c-6e363c8e1b02",
+      "name": "Google Sheets Trigger",
+      "notesInFlow": false,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "dQuT1pUjeBpdlFTF",
+          "name": "swarajTae"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "appId": "1157908906500627",
+        "object": "page",
+        "fields": [
+          "*"
+        ],
+        "options": {
+          "includeValues": true
+        }
+      },
+      "type": "n8n-nodes-base.facebookTrigger",
+      "typeVersion": 1,
+      "position": [
+        32,
+        96
+      ],
+      "id": "b78c6314-5b11-48c7-bc5b-970f12d36e92",
+      "name": "Facebook Trigger",
+      "webhookId": "690ae84a-9f30-48f4-89fd-2e2b069c5324",
+      "credentials": {
+        "facebookGraphAppApi": {
+          "id": "WUY8c6hXYISYmgVA",
+          "name": "Facebook Graph (App) account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1iQAS0P3c2-vUOp1B8bA0kgmWMFr7lyVCQF6JjkOqc4Y",
+          "mode": "list",
+          "cachedResultName": "googleSheetTrigger",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iQAS0P3c2-vUOp1B8bA0kgmWMFr7lyVCQF6JjkOqc4Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iQAS0P3c2-vUOp1B8bA0kgmWMFr7lyVCQF6JjkOqc4Y/edit#gid=0"
+        },
+        "combineFilters": "OR",
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "detectAutomatically"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        256,
+        -128
+      ],
+      "id": "e3c06dad-efc3-4872-a6dd-cd0f58024073",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "WS33Z9UPGA4cmDrU",
+          "name": "swarajtae"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Create Tweet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c5467613-a70e-4ab6-8808-b523c8f623ff",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e57d6b01cecff87913502c955328c9b5deb128ba96a04650837b665bfa3012a8"
+  },
+  "id": "aT7WyQccBuo0U1Ns",
+  "tags": []
+}
