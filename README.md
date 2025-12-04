@@ -1,106 +1,94 @@
 # socialmediaAuto
-Social Media Posting Automation (Google Sheets → X/Twitter)
+Social Media Auto-Posting Automation (n8n Workflow)
+Overview
 
-This workflow automates posting content to X (Twitter) whenever a new row is added or updated in a Google Sheet. It removes all manual steps and makes your content pipeline fast and consistent.
+This workflow demonstrates an end-to-end automation that posts content to X (Twitter) whenever a new entry is added in a connected Google Sheet.
+The setup shows how to build a fully automated posting pipeline using n8n without manual intervention.
 
-#Overview
+Although the recruiter’s task allowed connecting two social media platforms, I intentionally avoided Facebook and LinkedIn for this demo:
 
-This n8n automation listens for any row update in a specific Google Sheet.
-When a new entry is added (or an existing row is modified), the workflow automatically pushes that content to X (Twitter) using the X API.
+Facebook: My personal account currently has a technical login issue, so I couldn’t authenticate n8n with the Facebook Graph API.
 
-Key Features
+LinkedIn: I did not want to perform automation tests on my official LinkedIn account (to avoid unintended or untrustworthy activity).
 
-Google Sheets Trigger – Fires instantly when a row is added/updated.
-Dynamic Content Parsing – Reads caption/content fields directly from the sheet.
-Auto Publishing to X – Publishes the text to your X account using authenticated API credentials.
-Fully No-Code – Managed entirely inside n8n.
+The automation still demonstrates the same required skills:
+Trigger → Extract Data → Format → Auto-Post to social media.
+
+Tech Stack
+
+n8n
+
+Google Sheets
+
+X (Twitter) API (OAuth2)
+
+Workflow Summary
+Trigger
+
+Google Sheets Trigger node
+
+Polls the sheet every minute for any new row
+
+When a new row is detected, it passes the row contents to the next node
+
+Data Fetching
+
+Google Sheets (Get Row) node
+
+Pulls the updated row values
+
+Extracts the content that will be posted to X
+
+Posting to X
+
+Create Tweet node
+
+Takes the filtered row value (1st column) and automatically publishes it as a tweet
+
+Tweet format used:
+
+this is n8n automation testing {{ $json["1st column"] }}
 
 Workflow Structure
-1. Google Sheets Trigger (Watch for Changes)
-Mode: Watch Rows / On Updated or Added Row
-When a new row comes in, n8n pulls:
-post_text (caption)
-image_url (optional, if you added)
-scheduled_time (if applicable)
-Any other custom fields you’ve created.
+Google Sheets Trigger
+        ↓
+Get Row(s) from Sheet
+        ↓
+Create Tweet (Post to X)
 
+Files Included
 
-2. X (Twitter) Node – Create a Tweet
+n8n workflow JSON (view-only)
 
-Uses your OAuth credentials.
+Short screen recording showing:
 
-Publishes:
+Adding a new row in Google Sheets
 
-Text-only tweet, or
+Automation detecting the change
 
-Tweet with media if configured
+Tweet posted automatically
 
-4. Logging / Response Node
+README (this file)
 
-Updates a “Status” column in your Google Sheet:
-
-SUCCESS
-
-FAILED
-
-ERROR: <details>
-
-Prerequisites
-
-Before using this workflow, ensure you have:
-
-1. Google Cloud Project
-
-Enable Google Sheets API
-
-Connect your Google account inside n8n
-
-2. X (Twitter) Developer Account
-
-App created in developer portal
-
-API Keys + OAuth tokens added as X credentials inside n8n
-
-3. Required Columns in Google Sheet
-
-Your sheet should include (at minimum):
-
-Column Name	Purpose
-post_text	Text of the tweet
-image_url (optional)	Media to attach
-status	Filled automatically by n8n
 How to Use
 
-Add or update a row in the Google Sheet.
+Import the provided .json workflow into your n8n instance
 
-Automation triggers instantly.
+Add your own:
 
-Content is posted to your X account.
+Google Sheets credentials
 
-Sheet updates with posting status.
+X (Twitter) OAuth2 credentials
 
-Use Cases
+Activate the workflow
 
-Daily content calendar
+Add a new row in your Google Sheet → watch the tweet get created automatically
+Important Note
 
-Auto-posting marketing campaigns
+Facebook and LinkedIn nodes were not used intentionally:
 
-Managing client accounts
+Facebook: account login issue
 
-Scheduled content pipelines
+LinkedIn: avoided posting from my official LinkedIn profile
 
-Bulk posting workflows
-
-Deployment & Scaling
-
-You can duplicate this workflow for:
-
-LinkedIn
-
-Instagram (via Buffer or API)
-
-Facebook / Pages
-
-Threads (through API wrappers)
-
-Works with Airtable or Notion if you want to migrate later.
+The purpose of the demo is to show automation capability, not to post on multiple personal accounts.
